@@ -23,6 +23,6 @@ const requestConfig = (regionId, access_token, tempCreds) => {
 			'x-amz-access-token': access_token,
 		},
 	};
-
+	
 	return aws4.sign(params, {AccessKeyId, SecretAccessKey, SessionToken});
 }
