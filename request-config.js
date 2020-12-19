@@ -1,6 +1,6 @@
 const {regions} = require('./regions');
 
-const requestConfig = (regionId, access_token, tempCreds) => {
+const requestConfig = (marketplaceId, access_token, tempCreds) => {
 	const {
 		AccessKeyId,
 		SessionToken,
@@ -10,10 +10,10 @@ const requestConfig = (regionId, access_token, tempCreds) => {
 	const {
 		aws_region,
 		end_point,
-	} = regions.get(regionId);
+	} = regions.get(marketplaceId);
 
 	const params = {
-		path: '/catalog/v0/items?find=toys',
+		path: `/catalog/v0/items?MarketplaceId=${marketplaceId}&Query=toys`,
 		method: 'GET',
 		host: end_point,
 		region: aws_region,
