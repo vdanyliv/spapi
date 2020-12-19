@@ -1,3 +1,4 @@
+const aws4 = require('aws4');
 const {regions} = require('./regions');
 
 const requestConfig = (marketplaceId, access_token, tempCreds) => {
