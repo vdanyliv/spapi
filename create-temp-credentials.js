@@ -1,3 +1,6 @@
+const AWS = require('aws-sdk');
+const STS = new AWS.STS();
+
 const createTemporaryAWSCredentials = async() => {
 	const {
 		Credentials: {
