@@ -4,7 +4,7 @@ const requestConfig = (regionId, access_token, tempCreds) => {
 		const {
 			AccessKeyId,
 			SessionToken,
-      SecretAccessKey,
+			SecretAccessKey,
 		} = tempCreds;
 
 		const {
