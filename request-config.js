@@ -25,5 +25,5 @@ const requestConfig = (marketplaceId, access_token, tempCreds) => {
 		},
 	};
 	
-	return aws4.sign(params, {AccessKeyId, SecretAccessKey, SessionToken});
+	return aws4.sign(params, {accessKeyId: AccessKeyId, secretAccessKey: SecretAccessKey, sessionToken: SessionToken});
 }
