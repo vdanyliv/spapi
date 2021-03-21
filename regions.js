@@ -66,6 +66,18 @@ module.exports = {
 				aws_region: 'eu-west-1',
 				end_point: 'sellingpartnerapi-eu.amazon.com',
 			}],
+			['A2NODRKZP88ZB9', {
+				code: 'SE',
+				geo_region: 'Sweden',
+				aws_region: 'eu-west-1',
+				end_point: 'sellingpartnerapi-eu.amazon.com',
+			}],
+			['A1C3SOZRARQ6R3', {
+				code: 'PL',
+				geo_region: 'Poland',
+				aws_region: 'eu-west-1',
+				end_point: 'sellingpartnerapi-eu.amazon.com',
+			}],
 			['A33AVAJ2PDY3EV', {
 				code: 'TR',
 				geo_region: 'Turkey',
