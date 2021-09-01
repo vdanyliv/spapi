@@ -1,0 +1,56 @@
+service: spapi
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  lambdaHashingVersion: 20201221
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:ListBucket"
+      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"
+      Resource:
+        Fn::Join:
+          - ""
+          - - "arn:aws:s3:::"
+            - "Ref" : "ServerlessDeploymentBucket"
+            - "/*"
+
+package:
+  exclude:
+    - ./**
+  individually: true
+  excludeDevDependencies: true
+
+functions:
+  CreateReport:
+    package:
+      include:
+        - create-report/**
+    handler: create-report/index.handler
+  ReportStatus:
+    package:
+      include:
+        - report-status/**
+    handler: report-status/index.handler
+  ProcessReport:
+    package:
+      include:
+        - process-report/**
+    handler: process-report/index.handler
+
+stepFunctions:
+  stateMachines:
+    ReportGeneration:
+      name: ReportGeneration
+      definition: ${file(./step-function.yaml)}
+
+
+plugins:
+  - serverless-step-functions

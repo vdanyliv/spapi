@@ -1,0 +1,67 @@
+---
+StartAt: Create report
+States:
+  Create report:
+    Type: Task
+    Resource:
+      Fn::GetAtt:
+        - CreateReportLambdaFunction
+        - Arn
+    Next: Check report status
+    Retry:
+      - ErrorEquals:
+          - States.ALL
+        BackoffRate: 1
+        IntervalSeconds: 1
+        MaxAttempts: 2
+    Catch:
+      - ErrorEquals:
+          - States.Timeout
+          - States.TaskFailed
+        Next: Exit
+    TimeoutSeconds: 60
+  Check report status:
+    Type: Task
+    Resource:
+      Fn::GetAtt:
+        - ReportStatusLambdaFunction
+        - Arn
+    Next: Is report generation in progress
+    Catch:
+      - ErrorEquals:
+          - States.TaskFailed
+          - States.Timeout
+        Next: Exit
+    TimeoutSeconds: 60
+  Is report generation in progress:
+    Type: Choice
+    Choices:
+      - Variable: "$.report.payload.processingStatus"
+        StringEquals: IN_QUEUE
+        Next: Wait for report
+      - Variable: "$.report.payload.processingStatus"
+        StringEquals: IN_PROGRESS
+        Next: Wait for report
+      - Variable: "$.report.payload.processingStatus"
+        StringEquals: DONE
+        Next: Inset report data
+    Default: Exit
+  Wait for report:
+    Type: Wait
+    Seconds: 2
+    Next: Check report status
+  Inset report data:
+    Type: Task
+    Resource:
+      Fn::GetAtt:
+        - ProcessReportLambdaFunction
+        - Arn
+    Retry:
+      - ErrorEquals:
+          - States.ALL
+        IntervalSeconds: 2
+        MaxAttempts: 5
+        BackoffRate: 1
+    Next: Exit
+  Exit:
+    Type: Succeed
