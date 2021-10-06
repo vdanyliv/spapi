@@ -1,3 +1,6 @@
+# Supported by
+[Scrappie project](https://scrappie.app)
+
 # spapi
 Short instuction how to use spapi
 <br>
